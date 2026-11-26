@@ -28,6 +28,12 @@ if (LINE.length < 1 || LINE.length > 200 || LINE.trim().length === 0) {
 if (/[\r\n]/.test(LINE)) {
   throw new Error("entry line must be a single sentence on one line");
 }
+// The judge requires one sentence: it must end with terminal punctuation
+// and contain no second sentence terminator followed by a capital, which
+// would read as a second sentence smuggled into the line.
+if (!/[.!?]$/.test(LINE)) {
+  throw new Error("entry line must end with terminal punctuation");
+}
 
 const outDir = process.env.MAKEFUN_OUTPUT_DIR;
 if (!outDir) {
